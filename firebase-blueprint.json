@@ -1,0 +1,205 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Student or Admin profile stored in Firestore",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "fullName": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "email": { "type": "string", "format": "email", "maxLength": 180 },
+        "universityName": { "type": "string", "minLength": 2, "maxLength": 140 },
+        "course": { "type": "string", "minLength": 2, "maxLength": 80 },
+        "branch": { "type": "string", "minLength": 2, "maxLength": 100 },
+        "semester": { "type": "integer" },
+        "studentId": { "type": "string", "maxLength": 40 },
+        "role": { "type": "string", "enum": ["student", "admin"] },
+        "avatarUrl": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "fullName", "email", "universityName", "course", "branch", "semester", "role", "createdAt", "updatedAt"]
+    },
+    "Subject": {
+      "title": "Subject",
+      "description": "B.Tech subject and unit-wise syllabus",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "code": { "type": "string", "minLength": 2, "maxLength": 24 },
+        "name": { "type": "string", "minLength": 2, "maxLength": 140 },
+        "semester": { "type": "integer" },
+        "branch": { "type": "string", "minLength": 2, "maxLength": 100 },
+        "credits": { "type": "integer" },
+        "instructor": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "coverImage": { "type": "string", "maxLength": 500 },
+        "units": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "code", "name", "semester", "branch", "credits", "instructor", "description", "units", "createdAt", "updatedAt"]
+    },
+    "StudyMaterial": {
+      "title": "StudyMaterial",
+      "description": "Study material document (notes, PYQs, lab manuals, etc.)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 2, "maxLength": 180 },
+        "subjectId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "subjectName": { "type": "string", "maxLength": 140 },
+        "unitNumber": { "type": "integer" },
+        "category": { "type": "string", "maxLength": 80 },
+        "fileType": { "type": "string", "enum": ["PDF", "DOCX", "PPTX", "CODE"] },
+        "fileSize": { "type": "string", "maxLength": 30 },
+        "uploadDate": { "type": "string", "maxLength": 40 },
+        "uploadedBy": { "type": "string", "maxLength": 120 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "fileUrl": { "type": "string", "maxLength": 1000 },
+        "previewContent": { "type": "string", "maxLength": 25000 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "subjectId", "subjectName", "unitNumber", "category", "fileType", "fileSize", "uploadDate", "uploadedBy", "createdAt"]
+    },
+    "Assignment": {
+      "title": "Assignment",
+      "description": "Course assignment published by faculty/admin",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 2, "maxLength": 180 },
+        "subjectId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "subjectName": { "type": "string", "maxLength": 140 },
+        "unitNumber": { "type": "integer" },
+        "description": { "type": "string", "maxLength": 2000 },
+        "dueDate": { "type": "string", "maxLength": 40 },
+        "maxMarks": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "subjectId", "subjectName", "unitNumber", "description", "dueDate", "maxMarks", "createdAt", "updatedAt"]
+    },
+    "AssignmentSubmission": {
+      "title": "AssignmentSubmission",
+      "description": "Student assignment submission and completion record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "assignmentId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "status": { "type": "string", "enum": ["pending", "submitted", "completed"] },
+        "fileName": { "type": "string", "maxLength": 200 },
+        "fileUrl": { "type": "string", "maxLength": 1000 },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "submittedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "assignmentId", "status", "submittedAt"]
+    },
+    "Quiz": {
+      "title": "Quiz",
+      "description": "Unit-wise timed MCQ quiz",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 2, "maxLength": 180 },
+        "subjectId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "subjectName": { "type": "string", "maxLength": 140 },
+        "unitNumber": { "type": "integer" },
+        "durationMinutes": { "type": "integer" },
+        "questions": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "subjectId", "subjectName", "unitNumber", "durationMinutes", "questions", "createdAt"]
+    },
+    "QuizAttempt": {
+      "title": "QuizAttempt",
+      "description": "Student quiz submission and score",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "quizId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "quizTitle": { "type": "string", "maxLength": 180 },
+        "subjectName": { "type": "string", "maxLength": 140 },
+        "unitNumber": { "type": "integer" },
+        "score": { "type": "integer" },
+        "totalQuestions": { "type": "integer" },
+        "percentage": { "type": "integer" },
+        "answers": { "type": "array" },
+        "timeSpentSeconds": { "type": "integer" },
+        "completedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "quizId", "quizTitle", "subjectName", "unitNumber", "score", "totalQuestions", "percentage", "answers", "timeSpentSeconds", "completedAt"]
+    },
+    "UserProgress": {
+      "title": "UserProgress",
+      "description": "Completed syllabus units and bookmarked study materials per student",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "completedUnits": { "type": "array" },
+        "bookmarkedMaterialIds": { "type": "array" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "completedUnits", "bookmarkedMaterialIds", "updatedAt"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Campus and academic announcements",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 2, "maxLength": 180 },
+        "body": { "type": "string", "minLength": 2, "maxLength": 2000 },
+        "category": { "type": "string", "enum": ["Academic", "Exam", "Campus", "Placement"] },
+        "authorName": { "type": "string", "maxLength": 120 },
+        "publishedAt": { "type": "string", "format": "date-time" },
+        "pinned": { "type": "boolean" }
+      },
+      "required": ["id", "title", "body", "category", "authorName", "publishedAt", "pinned"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private student and admin profiles isolated by owner or admin"
+    },
+    "/admins/{adminId}": {
+      "schema": { "type": "object" },
+      "description": "Trusted admin role registry"
+    },
+    "/subjects/{subjectId}": {
+      "schema": { "$ref": "#/entities/Subject" },
+      "description": "Academic subjects and unit-wise syllabi"
+    },
+    "/materials/{materialId}": {
+      "schema": { "$ref": "#/entities/StudyMaterial" },
+      "description": "Study materials, notes, PYQs, and lab manuals"
+    },
+    "/assignments/{assignmentId}": {
+      "schema": { "$ref": "#/entities/Assignment" },
+      "description": "Course assignments"
+    },
+    "/assignmentSubmissions/{submissionId}": {
+      "schema": { "$ref": "#/entities/AssignmentSubmission" },
+      "description": "Student assignment submissions owned by userId"
+    },
+    "/quizzes/{quizId}": {
+      "schema": { "$ref": "#/entities/Quiz" },
+      "description": "Unit-wise MCQ quizzes"
+    },
+    "/quizAttempts/{attemptId}": {
+      "schema": { "$ref": "#/entities/QuizAttempt" },
+      "description": "Student quiz attempts owned by userId"
+    },
+    "/userProgress/{userId}": {
+      "schema": { "$ref": "#/entities/UserProgress" },
+      "description": "Completed units and bookmarks per student"
+    },
+    "/announcements/{announcementId}": {
+      "schema": { "$ref": "#/entities/Announcement" },
+      "description": "Campus and academic announcements"
+    }
+  }
+}

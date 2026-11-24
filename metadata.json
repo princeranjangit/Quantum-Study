@@ -1,0 +1,6 @@
+{
+  "name": "Quantum Study",
+  "description": "Your Campus. Your Learning. Your Future. A centralized study material and Learning Management System for B.Tech students at Quantum University, Roorkee.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
